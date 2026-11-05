@@ -423,10 +423,7 @@ function estatein_import_inner_pages() {
 		foreach ( $gallery as $order => $slug ) {
 			$attachment = estatein_import_image( $slug, $title );
 			if ( $attachment && (int) get_post_thumbnail_id( $post_id ) !== $attachment ) {
-				$copy = estatein_attach_copy( $attachment, $post_id, $order );
-				if ( ! $copy ) {
-					continue;
-				}
+				estatein_attach_copy( $attachment, $post_id, $order );
 			}
 		}
 	}

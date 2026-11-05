@@ -367,7 +367,8 @@ button {
 	height: 20px;
 }
 
-.banner.is-hidden {
+.banner.is-hidden,
+.banner-dismissed .banner {
 	display: none;
 }
 

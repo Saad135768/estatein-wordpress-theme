@@ -1,0 +1,10 @@
+{
+  "name": "estatein-theme",
+  "private": true,
+  "scripts": {
+    "build": "esbuild assets/css/main.css --minify --outfile=assets/css/main.min.css && esbuild assets/js/main.js --minify --target=es2019 --outfile=assets/js/main.min.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}

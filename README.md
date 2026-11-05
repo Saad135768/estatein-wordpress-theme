@@ -42,9 +42,9 @@ A custom WordPress theme built from the **Estatein (Dark) real-estate Figma temp
 
 | Check | Result |
 | --- | --- |
-| Lighthouse mobile: Performance / Accessibility / Best Practices / SEO | 96 / 100 / 100 / 100 |
+| Lighthouse mobile (Home, About, Property Details, Contact): Performance / Accessibility / Best Practices / SEO | 95–99 / 100 / 100 / 100 |
 | Lighthouse desktop: Performance | 100 |
-| axe-core (WCAG 2 A/AA + best practices), 1440px and 390px | 0 violations |
+| axe-core (WCAG 2 A/AA + best practices), all 6 pages at 1440px and 390px | 0 violations |
 | Horizontal overflow at 1920 / 1440 / 390 | none |
 | PHP notices with `WP_DEBUG` on | none |
 
@@ -55,6 +55,10 @@ A custom WordPress theme built from the **Estatein (Dark) real-estate Figma temp
 3. Activate **Estatein**.
 4. On the Dashboard, click **Import demo content**. The Home page is set as the front page automatically.
 5. Go to **Settings → Permalinks** and click **Save** once so property URLs work.
+
+## Development
+
+Edit `assets/css/main.css` and `assets/js/main.js`, then run `npm install && npm run build` to regenerate the minified files the theme loads (`main.min.css`, `main.min.js`). Set `SCRIPT_DEBUG` to `true` in `wp-config.php` to load the unminified sources.
 
 ## Structure
 

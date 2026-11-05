@@ -35,7 +35,7 @@ while ( have_posts() ) :
 
 				<?php if ( $estatein_images ) : ?>
 					<div class="gallery" data-gallery>
-						<ul class="gallery__thumbs" aria-label="<?php esc_attr_e( 'Choose photo', 'estatein' ); ?>">
+						<ul class="gallery__thumbs" role="list" aria-label="<?php esc_attr_e( 'Choose photo', 'estatein' ); ?>">
 							<?php foreach ( $estatein_images as $estatein_index => $estatein_image_id ) : ?>
 								<li>
 									<button class="gallery__thumb" type="button" data-gallery-thumb="<?php echo esc_attr( $estatein_index ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'Show photo %d', 'estatein' ), $estatein_index + 1 ) ); ?>"<?php echo 0 === $estatein_index ? ' aria-current="true"' : ''; ?>>

@@ -28,10 +28,10 @@ function estatein_defaults() {
 				array( 'value' => '16+', 'label' => __( 'Years of Experience', 'estatein' ) ),
 			),
 			'features'              => array(
-				array( 'title' => __( 'Find Your Dream Home', 'estatein' ), 'icon' => 'feature-home' ),
-				array( 'title' => __( 'Unlock Property Value', 'estatein' ), 'icon' => 'feature-value' ),
-				array( 'title' => __( 'Effortless Property Management', 'estatein' ), 'icon' => 'feature-management' ),
-				array( 'title' => __( 'Smart Investments, Informed Decisions', 'estatein' ), 'icon' => 'feature-investments' ),
+				array( 'title' => __( 'Find Your Dream Home', 'estatein' ), 'icon' => 'feature-home', 'link' => get_post_type_archive_link( 'property' ) ),
+				array( 'title' => __( 'Unlock Property Value', 'estatein' ), 'icon' => 'feature-value', 'link' => home_url( '/services/#selling' ) ),
+				array( 'title' => __( 'Effortless Property Management', 'estatein' ), 'icon' => 'feature-management', 'link' => home_url( '/services/#management' ) ),
+				array( 'title' => __( 'Smart Investments, Informed Decisions', 'estatein' ), 'icon' => 'feature-investments', 'link' => home_url( '/services/#investment' ) ),
 			),
 			'properties_heading'    => __( 'Featured Properties', 'estatein' ),
 			'properties_text'       => __( 'Explore our handpicked selection of featured properties. Each listing offers a glimpse into exceptional homes and investments available through Estatein. Click "View Details" for more information.', 'estatein' ),
@@ -118,7 +118,7 @@ function estatein_features() {
 	foreach ( $defaults as $index => $default ) {
 		$saved      = estatein_home( 'feature_' . ( $index + 1 ) );
 		$saved      = is_array( $saved ) ? array_filter( $saved ) : array();
-		$features[] = array_merge( array( 'link' => '' ), $default, $saved );
+		$features[] = array_merge( $default, $saved );
 	}
 
 	return $features;
@@ -423,25 +423,25 @@ function estatein_footer_columns() {
 			array( 'title' => __( 'FAQ’s', 'estatein' ), 'url' => $home . '#faqs' ),
 		) ),
 		array( 'title' => __( 'About Us', 'estatein' ), 'url' => home_url( '/about-us/' ), 'links' => array(
-			array( 'title' => __( 'Our Story', 'estatein' ), 'url' => home_url( '/about-us/#story' ) ),
-			array( 'title' => __( 'Our Works', 'estatein' ), 'url' => home_url( '/about-us/#works' ) ),
-			array( 'title' => __( 'How It Works', 'estatein' ), 'url' => home_url( '/about-us/#how-it-works' ) ),
+			array( 'title' => __( 'Our Story', 'estatein' ), 'url' => home_url( '/about-us/#journey-title' ) ),
+			array( 'title' => __( 'Our Works', 'estatein' ), 'url' => home_url( '/about-us/#achievements-title' ) ),
+			array( 'title' => __( 'How It Works', 'estatein' ), 'url' => home_url( '/about-us/#steps-title' ) ),
 			array( 'title' => __( 'Our Team', 'estatein' ), 'url' => home_url( '/about-us/#team' ) ),
 			array( 'title' => __( 'Our Clients', 'estatein' ), 'url' => home_url( '/about-us/#clients' ) ),
 		) ),
 		array( 'title' => __( 'Properties', 'estatein' ), 'url' => $properties, 'links' => array(
 			array( 'title' => __( 'Portfolio', 'estatein' ), 'url' => $properties ),
-			array( 'title' => __( 'Categories', 'estatein' ), 'url' => $properties . '#categories' ),
+			array( 'title' => __( 'Categories', 'estatein' ), 'url' => $properties . '#results' ),
 		) ),
 		array( 'title' => __( 'Services', 'estatein' ), 'url' => home_url( '/services/' ), 'links' => array(
-			array( 'title' => __( 'Valuation Mastery', 'estatein' ), 'url' => home_url( '/services/#valuation' ) ),
-			array( 'title' => __( 'Strategic Marketing', 'estatein' ), 'url' => home_url( '/services/#marketing' ) ),
-			array( 'title' => __( 'Negotiation Wizardry', 'estatein' ), 'url' => home_url( '/services/#negotiation' ) ),
-			array( 'title' => __( 'Closing Success', 'estatein' ), 'url' => home_url( '/services/#closing' ) ),
+			array( 'title' => __( 'Valuation Mastery', 'estatein' ), 'url' => home_url( '/services/#selling' ) ),
+			array( 'title' => __( 'Strategic Marketing', 'estatein' ), 'url' => home_url( '/services/#selling' ) ),
+			array( 'title' => __( 'Negotiation Wizardry', 'estatein' ), 'url' => home_url( '/services/#selling' ) ),
+			array( 'title' => __( 'Closing Success', 'estatein' ), 'url' => home_url( '/services/#selling' ) ),
 			array( 'title' => __( 'Property Management', 'estatein' ), 'url' => home_url( '/services/#management' ) ),
 		) ),
 		array( 'title' => __( 'Contact Us', 'estatein' ), 'url' => home_url( '/contact/' ), 'links' => array(
-			array( 'title' => __( 'Contact Form', 'estatein' ), 'url' => home_url( '/contact/#form' ) ),
+			array( 'title' => __( 'Contact Form', 'estatein' ), 'url' => home_url( '/contact/#enquiry-contact' ) ),
 			array( 'title' => __( 'Our Offices', 'estatein' ), 'url' => home_url( '/contact/#offices' ) ),
 		) ),
 	);
@@ -487,7 +487,7 @@ function estatein_customize_register( $wp_customize ) {
 	$settings = array(
 		'estatein_banner_enabled' => array( __( 'Show top announcement banner', 'estatein' ), 'checkbox', true, 'rest_sanitize_boolean' ),
 		'estatein_banner_text'    => array( __( 'Banner text', 'estatein' ), 'text', '✨Discover Your Dream Property with Estatein', 'sanitize_text_field' ),
-		'estatein_banner_link'    => array( __( 'Banner “Learn More” URL', 'estatein' ), 'url', '#properties', 'esc_url_raw' ),
+		'estatein_banner_link'    => array( __( 'Banner “Learn More” URL', 'estatein' ), 'url', '/properties/', 'esc_url_raw' ),
 		'estatein_contact_url'    => array( __( 'Header “Contact Us” URL', 'estatein' ), 'url', '/contact/', 'esc_url_raw' ),
 		'estatein_copyright'      => array( __( 'Copyright text', 'estatein' ), 'text', '@2023 Estatein. All Rights Reserved.', 'sanitize_text_field' ),
 		'estatein_contact_email'  => array( __( 'Contact email', 'estatein' ), 'email', 'info@estatein.com', 'sanitize_email' ),

@@ -22,13 +22,17 @@ function estatein_asset_version( $relative_path ) {
  * Enqueues the theme stylesheet and deferred script.
  */
 function estatein_enqueue_assets() {
-	wp_enqueue_style( 'estatein-main', ESTATEIN_URI . '/assets/css/main.css', array(), estatein_asset_version( 'assets/css/main.css' ) );
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) || ! file_exists( ESTATEIN_DIR . '/assets/css/main.min.css' ) ? '' : '.min';
+	$css    = 'assets/css/main' . $suffix . '.css';
+	$js     = 'assets/js/main' . $suffix . '.js';
+
+	wp_enqueue_style( 'estatein-main', ESTATEIN_URI . '/' . $css, array(), estatein_asset_version( $css ) );
 
 	wp_enqueue_script(
 		'estatein-main',
-		ESTATEIN_URI . '/assets/js/main.js',
+		ESTATEIN_URI . '/' . $js,
 		array(),
-		estatein_asset_version( 'assets/js/main.js' ),
+		estatein_asset_version( $js ),
 		array(
 			'strategy'  => 'defer',
 			'in_footer' => true,
@@ -62,9 +66,20 @@ function estatein_preload_assets() {
 add_action( 'wp_head', 'estatein_preload_assets', 1 );
 
 /**
- * Swaps the no-js body class for js before first paint.
+ * Adds the js class (and remembered banner dismissal) before first paint.
  */
 function estatein_js_class() {
-	echo "<script>document.documentElement.classList.add('js');</script>\n";
+	echo "<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('estatein-banner-dismissed')==='1'){document.documentElement.classList.add('banner-dismissed');}}catch(e){}</script>\n";
 }
+
+/**
+ * Uses the Estatein mark as favicon when no Site Icon is configured.
+ */
+function estatein_favicon() {
+	if ( has_site_icon() ) {
+		return;
+	}
+	printf( '<link rel="icon" href="%s" type="image/svg+xml">' . "\n", esc_url( ESTATEIN_URI . '/assets/icons/logo-symbol.svg' ) );
+}
+add_action( 'wp_head', 'estatein_favicon', 3 );
 add_action( 'wp_head', 'estatein_js_class', 0 );

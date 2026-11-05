@@ -37,7 +37,7 @@
   - Self-hosted, preloaded WOFF2 fonts.
   - The LCP hero image is preloaded with a matching `imagesrcset`.
   - Images are WebP with lazy loading below the fold.
-  - JS is deferred, and block-library and emoji assets are removed.
+  - CSS and JS are minified with esbuild (`npm run build`); JS is deferred, and block-library and emoji assets are removed.
 - **SEO and accessibility.**
   - Semantic landmarks with a correct heading order (one H1).
   - Meta and Open Graph tags, plus JSON-LD for `RealEstateAgent`, `RealEstateListing` and `FAQPage`. These are disabled automatically when Yoast SEO or Rank Math is present.
@@ -69,9 +69,9 @@
 
 | Metric | Result |
 | --- | --- |
-| Lighthouse mobile: Performance / Accessibility / Best Practices / SEO | 96 / 100 / 100 / 100 |
+| Lighthouse mobile (Home, About, Property Details, Contact): Performance / Accessibility / Best Practices / SEO | 95–99 / 100 / 100 / 100 |
 | Lighthouse desktop: Performance | 100 |
-| axe-core violations | 0 |
+| axe-core violations (all 6 pages, desktop and mobile) | 0 |
 
 ## 6. Next steps (outside the 4-hour scope)
 

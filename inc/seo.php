@@ -28,6 +28,18 @@ function estatein_meta_description() {
 		return wp_strip_all_tags( (string) estatein_home( 'hero_text' ) );
 	}
 
+	if ( is_page() ) {
+		$keys = array(
+			'about-us' => 'about_journey',
+			'services' => 'services_hero',
+			'contact'  => 'contact_hero',
+		);
+		$slug = get_post_field( 'post_name', get_queried_object_id() );
+		if ( isset( $keys[ $slug ] ) ) {
+			return wp_strip_all_tags( estatein_page_hero( $keys[ $slug ] )['text'] );
+		}
+	}
+
 	if ( is_singular() ) {
 		$post = get_queried_object();
 		$text = has_excerpt( $post ) ? get_the_excerpt( $post ) : wp_trim_words( wp_strip_all_tags( $post->post_content ), 30, '…' );

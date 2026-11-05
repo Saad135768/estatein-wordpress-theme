@@ -8,7 +8,8 @@
 defined( 'ABSPATH' ) || exit;
 
 $estatein_banner_text = get_theme_mod( 'estatein_banner_text', '✨Discover Your Dream Property with Estatein' );
-$estatein_banner_link = get_theme_mod( 'estatein_banner_link', '#properties' );
+$estatein_banner_link = (string) get_theme_mod( 'estatein_banner_link', '/properties/' );
+$estatein_banner_link = wp_parse_url( $estatein_banner_link, PHP_URL_HOST ) || 0 === strpos( $estatein_banner_link, '#' ) ? $estatein_banner_link : home_url( $estatein_banner_link );
 $estatein_contact_url = estatein_contact_url();
 ?>
 <!doctype html>
@@ -28,7 +29,7 @@ $estatein_contact_url = estatein_contact_url();
 			<p class="banner__text">
 				<span><?php echo esc_html( $estatein_banner_text ); ?></span>
 				<?php if ( $estatein_banner_link ) : ?>
-					<a class="banner__link" href="<?php echo esc_url( $estatein_banner_link ); ?>"><?php esc_html_e( 'Learn More', 'estatein' ); ?></a>
+					<a class="banner__link" href="<?php echo esc_url( $estatein_banner_link ); ?>"><?php esc_html_e( 'Learn More', 'estatein' ); ?><span class="screen-reader-text"> <?php esc_html_e( 'about our properties', 'estatein' ); ?></span></a>
 				<?php endif; ?>
 			</p>
 			<button class="banner__close" type="button" data-banner-close aria-label="<?php esc_attr_e( 'Dismiss announcement', 'estatein' ); ?>">

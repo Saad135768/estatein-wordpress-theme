@@ -33,7 +33,7 @@ $estatein_header = estatein_content( 'about_team' );
 				?>
 				<li class="team-card">
 					<div class="team-card__media">
-						<?php the_post_thumbnail( 'estatein-card', array( 'class' => 'team-card__image', 'loading' => 'lazy', 'alt' => '' ) ); ?>
+						<?php the_post_thumbnail( 'estatein-card', array( 'class' => 'team-card__image', 'loading' => 'lazy', 'alt' => get_the_title() ) ); ?>
 						<a class="team-card__social" href="<?php echo esc_url( $estatein_twitter ); ?>" aria-label="<?php echo esc_attr( sprintf( __( '%s on Twitter', 'estatein' ), get_the_title() ) ); ?>"><?php estatein_the_icon( 'twitter', 'icon icon--24' ); ?></a>
 					</div>
 					<div class="team-card__body">
