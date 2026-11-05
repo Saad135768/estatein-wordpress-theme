@@ -2,7 +2,7 @@
 
 A custom WordPress theme built from the **Estatein (Dark) real-estate Figma template**. It delivers the Home page pixel-close to the design at desktop (1920), laptop (1440) and mobile (390), with every piece of content editable from the WordPress admin.
 
-**Live demo:** _add your InfinityFree/Wasmer URL here_
+**Live demo:** https://estatein-saad.wasmer.app
 
 ![Theme screenshot](screenshot.png)
 
