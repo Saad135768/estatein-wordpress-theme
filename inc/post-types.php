@@ -75,6 +75,30 @@ function estatein_register_post_types() {
 		)
 	);
 
+	$private_types = array(
+		'team_member' => array( __( 'Team Member', 'estatein' ), __( 'Team', 'estatein' ), 'dashicons-groups', array( 'title', 'thumbnail', 'page-attributes' ) ),
+		'client'      => array( __( 'Client', 'estatein' ), __( 'Clients', 'estatein' ), 'dashicons-businessperson', array( 'title', 'editor', 'page-attributes' ) ),
+		'service'     => array( __( 'Service', 'estatein' ), __( 'Services', 'estatein' ), 'dashicons-admin-tools', array( 'title', 'excerpt', 'page-attributes' ) ),
+		'office'      => array( __( 'Office', 'estatein' ), __( 'Offices', 'estatein' ), 'dashicons-location', array( 'title', 'editor', 'page-attributes' ) ),
+	);
+
+	$position = 23;
+	foreach ( $private_types as $type => $config ) {
+		register_post_type(
+			$type,
+			array(
+				'labels'              => estatein_cpt_labels( $config[0], $config[1] ),
+				'public'              => false,
+				'show_ui'             => true,
+				'exclude_from_search' => true,
+				'menu_icon'           => $config[2],
+				'menu_position'       => $position++,
+				'supports'            => $config[3],
+				'show_in_rest'        => true,
+			)
+		);
+	}
+
 	register_taxonomy(
 		'property_type',
 		'property',

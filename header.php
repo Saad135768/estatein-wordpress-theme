@@ -62,7 +62,7 @@ $estatein_contact_url = estatein_contact_url();
 				<a class="btn btn--ghost nav__cta nav__cta--mobile" href="<?php echo esc_url( $estatein_contact_url ); ?>"><?php esc_html_e( 'Contact Us', 'estatein' ); ?></a>
 			</nav>
 
-			<a class="btn btn--ghost nav__cta" href="<?php echo esc_url( $estatein_contact_url ); ?>"><?php esc_html_e( 'Contact Us', 'estatein' ); ?></a>
+			<a class="btn <?php echo is_page( 'contact' ) ? 'btn--primary' : 'btn--ghost'; ?> nav__cta" href="<?php echo esc_url( $estatein_contact_url ); ?>"<?php echo is_page( 'contact' ) ? ' aria-current="page"' : ''; ?>><?php esc_html_e( 'Contact Us', 'estatein' ); ?></a>
 		</div>
 	</div>
 </header>

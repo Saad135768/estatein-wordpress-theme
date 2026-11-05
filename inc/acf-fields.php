@@ -176,6 +176,112 @@ function estatein_register_acf_fields() {
 				estatein_acf_field( 'area', __( 'Area (sq ft)', 'estatein' ), 'number', array( 'min' => 0, 'wrapper' => array( 'width' => 25 ) ) ),
 				estatein_acf_field( 'location', __( 'Location', 'estatein' ), 'text', array( 'wrapper' => array( 'width' => 50 ) ) ),
 				estatein_acf_field( 'is_featured', __( 'Featured on Home page', 'estatein' ), 'true_false', array( 'ui' => 1, 'wrapper' => array( 'width' => 50 ) ) ),
+				estatein_acf_field( 'tagline', __( 'Card tagline', 'estatein' ), 'text', array( 'placeholder' => 'Coastal Escapes - Where Waves Beckon', 'wrapper' => array( 'width' => 50 ) ) ),
+				estatein_acf_field( 'build_year', __( 'Build year', 'estatein' ), 'number', array( 'min' => 1800, 'max' => 2100, 'wrapper' => array( 'width' => 50 ) ) ),
+				estatein_acf_field( 'key_features', __( 'Key features & amenities (one per line)', 'estatein' ), 'textarea', array( 'rows' => 5, 'new_lines' => '' ) ),
+				estatein_acf_tab( __( 'Pricing details', 'estatein' ) ),
+				estatein_acf_field( 'fee_transfer_tax', __( 'Property transfer tax', 'estatein' ), 'number', array( 'prepend' => '$', 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'fee_legal', __( 'Legal fees', 'estatein' ), 'number', array( 'prepend' => '$', 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'fee_inspection', __( 'Home inspection', 'estatein' ), 'number', array( 'prepend' => '$', 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'fee_insurance', __( 'Property insurance (annual)', 'estatein' ), 'number', array( 'prepend' => '$', 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'monthly_tax', __( 'Property taxes (monthly)', 'estatein' ), 'number', array( 'prepend' => '$', 'wrapper' => array( 'width' => 33 ) ) ),
+				estatein_acf_field( 'monthly_hoa', __( 'HOA fee (monthly)', 'estatein' ), 'number', array( 'prepend' => '$', 'wrapper' => array( 'width' => 33 ) ) ),
+				estatein_acf_field( 'down_payment_percent', __( 'Down payment %', 'estatein' ), 'number', array( 'default_value' => 20, 'min' => 0, 'max' => 100, 'append' => '%', 'wrapper' => array( 'width' => 34 ) ) ),
+			),
+		)
+	);
+
+	$simple_groups = array(
+		'team_member' => array(
+			__( 'Team Member Details', 'estatein' ),
+			array(
+				estatein_acf_field( 'role', __( 'Role', 'estatein' ), 'text', array( 'placeholder' => 'Founder', 'wrapper' => array( 'width' => 50 ) ) ),
+				estatein_acf_field( 'twitter_url', __( 'Twitter / X URL', 'estatein' ), 'url', array( 'wrapper' => array( 'width' => 50 ) ) ),
+			),
+		),
+		'client'      => array(
+			__( 'Client Details', 'estatein' ),
+			array(
+				estatein_acf_field( 'since', __( 'Client since (year)', 'estatein' ), 'number', array( 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'website', __( 'Website', 'estatein' ), 'url', array( 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'domain', __( 'Domain', 'estatein' ), 'text', array( 'placeholder' => 'Commercial Real Estate', 'wrapper' => array( 'width' => 25 ) ) ),
+				estatein_acf_field( 'category', __( 'Category', 'estatein' ), 'text', array( 'placeholder' => 'Luxury Home Development', 'wrapper' => array( 'width' => 25 ) ) ),
+			),
+		),
+		'service'     => array(
+			__( 'Service Details', 'estatein' ),
+			array(
+				estatein_acf_field(
+					'service_group',
+					__( 'Group', 'estatein' ),
+					'select',
+					array(
+						'choices'       => estatein_service_group_choices(),
+						'default_value' => 'selling',
+						'wrapper'       => array( 'width' => 50 ),
+					)
+				),
+				estatein_acf_field(
+					'service_icon',
+					__( 'Icon', 'estatein' ),
+					'select',
+					array(
+						'choices' => array_combine( estatein_service_icons(), estatein_service_icons() ),
+						'wrapper' => array( 'width' => 50 ),
+					)
+				),
+			),
+		),
+		'office'      => array(
+			__( 'Office Details', 'estatein' ),
+			array(
+				estatein_acf_field( 'office_label', __( 'Label', 'estatein' ), 'text', array( 'placeholder' => 'Main Headquarters', 'wrapper' => array( 'width' => 33 ) ) ),
+				estatein_acf_field(
+					'office_region',
+					__( 'Region', 'estatein' ),
+					'select',
+					array(
+						'choices' => array(
+							'regional'      => __( 'Regional', 'estatein' ),
+							'international' => __( 'International', 'estatein' ),
+						),
+						'wrapper' => array( 'width' => 33 ),
+					)
+				),
+				estatein_acf_field( 'office_city', __( 'City', 'estatein' ), 'text', array( 'wrapper' => array( 'width' => 34 ) ) ),
+				estatein_acf_field( 'office_email', __( 'Email', 'estatein' ), 'email', array( 'wrapper' => array( 'width' => 33 ) ) ),
+				estatein_acf_field( 'office_phone', __( 'Phone', 'estatein' ), 'text', array( 'wrapper' => array( 'width' => 33 ) ) ),
+				estatein_acf_field( 'office_map', __( 'Directions URL', 'estatein' ), 'url', array( 'wrapper' => array( 'width' => 34 ) ) ),
+			),
+		),
+	);
+
+	foreach ( $simple_groups as $type => $group ) {
+		acf_add_local_field_group(
+			array(
+				'key'      => 'group_estatein_' . $type,
+				'title'    => $group[0],
+				'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => $type ) ) ),
+				'position' => 'acf_after_title',
+				'fields'   => $group[1],
+			)
+		);
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key'      => 'group_estatein_page_hero',
+			'title'    => __( 'Page Hero', 'estatein' ),
+			'location' => array(
+				array(
+					array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ),
+					array( 'param' => 'page_type', 'operator' => '!=', 'value' => 'front_page' ),
+				),
+			),
+			'position' => 'acf_after_title',
+			'fields'   => array(
+				estatein_acf_field( 'page_hero_title', __( 'Hero title', 'estatein' ), 'text' ),
+				estatein_acf_field( 'page_hero_text', __( 'Hero text', 'estatein' ), 'textarea', array( 'rows' => 3 ) ),
 			),
 		)
 	);

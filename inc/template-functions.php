@@ -215,6 +215,7 @@ function estatein_svg_allowed_html() {
 		'g'        => $common,
 		'path'     => array_merge( $common, array( 'd' => true ) ),
 		'circle'   => array_merge( $common, array( 'cx' => true, 'cy' => true, 'r' => true ) ),
+		'ellipse'  => array_merge( $common, array( 'cx' => true, 'cy' => true, 'rx' => true, 'ry' => true ) ),
 		'rect'     => array_merge( $common, array( 'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true ) ),
 		'defs'     => array(),
 		'clippath' => array( 'id' => true ),
@@ -489,6 +490,8 @@ function estatein_customize_register( $wp_customize ) {
 		'estatein_banner_link'    => array( __( 'Banner “Learn More” URL', 'estatein' ), 'url', '#properties', 'esc_url_raw' ),
 		'estatein_contact_url'    => array( __( 'Header “Contact Us” URL', 'estatein' ), 'url', '/contact/', 'esc_url_raw' ),
 		'estatein_copyright'      => array( __( 'Copyright text', 'estatein' ), 'text', '@2023 Estatein. All Rights Reserved.', 'sanitize_text_field' ),
+		'estatein_contact_email'  => array( __( 'Contact email', 'estatein' ), 'email', 'info@estatein.com', 'sanitize_email' ),
+		'estatein_contact_phone'  => array( __( 'Contact phone', 'estatein' ), 'text', '+1 (123) 456-7890', 'sanitize_text_field' ),
 	);
 
 	foreach ( array( 'facebook', 'linkedin', 'twitter', 'youtube' ) as $network ) {
@@ -515,3 +518,35 @@ function estatein_customize_register( $wp_customize ) {
 	}
 }
 add_action( 'customize_register', 'estatein_customize_register' );
+
+/**
+ * Returns the gallery image IDs for a property: featured image first, then attached images.
+ *
+ * @param int $post_id Property ID.
+ * @return int[]
+ */
+function estatein_property_gallery( $post_id ) {
+	$ids      = array();
+	$featured = (int) get_post_thumbnail_id( $post_id );
+
+	if ( $featured ) {
+		$ids[] = $featured;
+	}
+
+	$attached = get_children(
+		array(
+			'post_parent'    => $post_id,
+			'post_type'      => 'attachment',
+			'post_mime_type' => 'image',
+			'orderby'        => 'menu_order ID',
+			'order'          => 'ASC',
+			'fields'         => 'ids',
+		)
+	);
+
+	foreach ( $attached as $attachment_id ) {
+		$ids[] = (int) $attachment_id;
+	}
+
+	return array_values( array_unique( $ids ) );
+}

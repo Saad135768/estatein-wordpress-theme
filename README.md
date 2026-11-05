@@ -1,6 +1,6 @@
 # Estatein — Custom WordPress Theme
 
-A custom WordPress theme built from the **Estatein (Dark) real-estate Figma template**. It delivers the Home page pixel-close to the design at desktop (1920), laptop (1440) and mobile (390), with every piece of content editable from the WordPress admin.
+A custom WordPress theme built from the **Estatein (Dark) real-estate Figma template**. All six pages of the design — Home, About Us, Properties, Property Details, Services and Contact — are built pixel-close at desktop (1920), laptop (1440) and mobile (390), with content managed from the WordPress admin.
 
 **Live demo:** https://estatein-saad.wasmer.app
 
@@ -9,7 +9,11 @@ A custom WordPress theme built from the **Estatein (Dark) real-estate Figma temp
 ## Features
 
 - **Custom theme, no page builder:** hand-written PHP templates, one CSS file, one small vanilla JS file (no jQuery).
-- **Custom post types:** Properties (with a *Property Type* taxonomy), Testimonials and FAQs.
+- **Custom post types:** Properties (with a *Property Type* taxonomy), Testimonials, FAQs, Team Members, Clients, Services and Offices.
+- **Page templates:** `page-about-us.php`, `page-services.php`, `page-contact.php` (selectable as templates or applied automatically by slug), `archive-property.php` and `single-property.php`.
+- **Property search:** keyword search plus Location, Property Type, Price, Size and Build Year filters on the Properties page (`pre_get_posts`, no plugin).
+- **Property Details:** gallery from attached images with thumbnails and slider, key facts, features list, inquiry form pre-filled with the property, and a pricing breakdown with computed totals (fees, down payment, mortgage amount).
+- **Enquiry forms:** three forms (property request, property inquiry, contact) sharing one handler — nonce, honeypot, validation, stored as private *Enquiries* and emailed to the site admin.
 - **ACF-powered content:** every Home section (hero, stats, feature cards, section headings, CTA) plus property and client details. Field groups are registered in PHP (`inc/acf-fields.php`), so they are version-controlled and work with **free ACF**.
 - **Graceful fallbacks:** if ACF is inactive or a field is empty, the theme falls back to the design copy, so the site never renders blank.
 - **Customizer settings:** announcement banner, Contact URL, copyright and social links.
@@ -58,6 +62,7 @@ A custom WordPress theme built from the **Estatein (Dark) real-estate Figma temp
 estatein/
 ├── style.css, functions.php, screenshot.png
 ├── header.php, footer.php, front-page.php, index.php
+├── page-about-us.php, page-services.php, page-contact.php
 ├── archive-property.php, single-property.php
 ├── inc/
 │   ├── setup.php               theme supports, menus, image sizes, cleanup
@@ -65,12 +70,16 @@ estatein/
 │   ├── post-types.php          property / testimonial / faq + taxonomy
 │   ├── acf-fields.php          ACF field groups in code
 │   ├── template-functions.php  helpers, design defaults, Customizer
+│   ├── page-content.php        inner-page copy (filterable)
+│   ├── property-search.php     archive filters
+│   ├── enquiries.php           form fields + handler
 │   ├── newsletter.php          sign-up handler
 │   ├── seo.php                 meta + JSON-LD
 │   └── demo-content.php        one-click / WP-CLI importer
 ├── template-parts/
 │   ├── home/                   hero, features, properties, testimonials, faqs, cta
-│   └── components/             section-header, card-property, slider-controls
+│   ├── sections/               team, clients, pricing
+│   └── components/             section-header, page-hero, card-property, slider-controls, enquiry-form
 └── assets/ css, js, fonts, icons (SVG), images (WebP)
 ```
 

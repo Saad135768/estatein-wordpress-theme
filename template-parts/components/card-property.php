@@ -8,6 +8,8 @@
 defined( 'ABSPATH' ) || exit;
 
 $estatein_id      = get_the_ID();
+$estatein_listing = 'listing' === ( $args['variant'] ?? '' );
+$estatein_tagline = estatein_field( 'tagline', $estatein_id );
 $estatein_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_content(), 14, '' );
 ?>
 <article class="property-card">
@@ -26,6 +28,9 @@ $estatein_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_c
 		?>
 	</a>
 	<div class="property-card__body">
+		<?php if ( $estatein_listing && $estatein_tagline ) : ?>
+			<p class="chip property-card__tagline"><?php echo esc_html( $estatein_tagline ); ?></p>
+		<?php endif; ?>
 		<div class="property-card__text">
 			<h3 class="property-card__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 			<p class="property-card__excerpt">
@@ -34,7 +39,7 @@ $estatein_excerpt = has_excerpt() ? get_the_excerpt() : wp_trim_words( get_the_c
 			</p>
 		</div>
 
-		<?php $estatein_chips = estatein_property_chips( $estatein_id ); ?>
+		<?php $estatein_chips = $estatein_listing ? array() : estatein_property_chips( $estatein_id ); ?>
 		<?php if ( $estatein_chips ) : ?>
 			<ul class="chips">
 				<?php foreach ( $estatein_chips as $estatein_chip ) : ?>

@@ -10,6 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+define( 'ESTATEIN_DEMO_VERSION', 2 );
+
 /**
  * Returns the bundled demo data.
  *
@@ -215,9 +217,10 @@ function estatein_import_demo() {
 			array(
 				'post_type'    => 'page',
 				'post_title'   => $page_title,
-				'post_content' => 'Home' === $page_title ? '' : '<p>This page is part of the full Estatein design and is outside the scope of the Home page build.</p>',
+				'post_content' => '',
 			)
 		);
+		wp_update_post( array( 'ID' => $pages[ $page_title ], 'post_content' => '' ) );
 	}
 
 	update_option( 'show_on_front', 'page' );
@@ -236,8 +239,10 @@ function estatein_import_demo() {
 	}
 
 	estatein_create_primary_menu( $pages );
+	estatein_import_inner_pages();
 
 	update_option( 'estatein_demo_imported', time() );
+	update_option( 'estatein_demo_version', ESTATEIN_DEMO_VERSION );
 	flush_rewrite_rules();
 
 	return $counts;
@@ -288,7 +293,7 @@ function estatein_create_primary_menu( $pages ) {
  * Shows an admin notice with an import button until demo content exists.
  */
 function estatein_demo_notice() {
-	if ( ! current_user_can( 'manage_options' ) || get_option( 'estatein_demo_imported' ) ) {
+	if ( ! current_user_can( 'manage_options' ) || (int) get_option( 'estatein_demo_version' ) >= ESTATEIN_DEMO_VERSION ) {
 		return;
 	}
 
@@ -333,4 +338,171 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			WP_CLI::success( sprintf( 'Imported %1$d properties, %2$d testimonials and %3$d FAQs.', $counts['properties'], $counts['testimonials'], $counts['faqs'] ) );
 		}
 	);
+}
+
+/**
+ * Content for the About, Properties, Property Details, Services and Contact pages.
+ *
+ * @return array<string, array>
+ */
+function estatein_inner_demo_data() {
+	return array(
+		'property_extras' => array(
+			'Seaside Serenity Villa'   => array( 'Coastal Escapes - Where Waves Beckon', 2018, 1250000, 25000, 3000, 500, 1200, 1250, 300 ),
+			'Metropolitan Haven'       => array( 'Urban Oasis - Life in the Heart of the City', 2016, 650000, 13000, 2500, 450, 950, 650, 280 ),
+			'Rustic Retreat Cottage'   => array( 'Countryside Charm - Escape to Nature\'s Embrace', 2004, 350000, 7000, 2000, 400, 800, 360, 150 ),
+			'Skyline Penthouse'        => array( 'Urban Heights - Living Above the Skyline', 2021, 1250000, 25000, 3000, 500, 1400, 1250, 450 ),
+			'Garden Grove Townhouse'   => array( 'Green Living - Your Private Garden Retreat', 2012, 720000, 14400, 2500, 450, 1000, 720, 220 ),
+			'Coastal Breeze Residence' => array( 'Beachfront Bliss - Steps from the Sand', 2019, 980000, 19600, 3000, 500, 1300, 980, 350 ),
+		),
+		'features'        => "Expansive oceanfront terrace for outdoor entertaining\nGourmet kitchen with top-of-the-line appliances\nPrivate beach access for morning strolls and sunset views\nMaster suite with a spa-inspired bathroom and ocean-facing balcony\nPrivate garage and ample storage space",
+		'team'            => array(
+			array( 'Max Mitchell', 'Founder', 'team-max' ),
+			array( 'Sarah Johnson', 'Chief Real Estate Officer', 'team-sarah' ),
+			array( 'David Brown', 'Head of Property Management', 'team-david' ),
+			array( 'Michael Turner', 'Legal Counsel', 'team-michael' ),
+		),
+		'clients'         => array(
+			array( 'ABC Corporation', 2019, 'Commercial Real Estate', 'Luxury Home Development', 'Estatein\'s expertise in finding the perfect office space for our expanding operations was invaluable. They truly understand our business needs.' ),
+			array( 'GreenTech Enterprises', 2018, 'Commercial Real Estate', 'Retail Space', 'Estatein\'s ability to identify prime retail locations helped us expand our brand presence. They are a trusted partner in our growth.' ),
+			array( 'Horizon Hospitality', 2020, 'Hospitality', 'Boutique Hotels', 'From site selection to closing, Estatein made our hotel acquisition smooth and transparent. A partner we rely on.' ),
+			array( 'Summit Logistics', 2021, 'Industrial Real Estate', 'Warehousing', 'Estatein found us a distribution hub in record time, with terms that beat our expectations.' ),
+		),
+		'services'        => array(
+			array( 'Valuation Mastery', 'selling', 'chart', 'Discover the true worth of your property with our expert valuation services.' ),
+			array( 'Strategic Marketing', 'selling', 'pie', 'Selling a property requires more than just a listing; it demands a strategic marketing approach.' ),
+			array( 'Negotiation Wizardry', 'selling', 'coins', 'Negotiating the best deal is an art, and our negotiation experts are masters of it.' ),
+			array( 'Closing Success', 'selling', 'megaphone', 'A successful sale is not complete until the closing. We guide you through the intricate closing process.' ),
+			array( 'Tenant Harmony', 'management', 'users', 'Our Tenant Management services ensure that your tenants have a smooth and reducing vacancies.' ),
+			array( 'Maintenance Ease', 'management', 'wrench', 'Say goodbye to property maintenance headaches. We handle all aspects of property upkeep.' ),
+			array( 'Financial Peace of Mind', 'management', 'wallet', 'Managing property finances can be complex. Our financial experts take care of rent collection.' ),
+			array( 'Legal Guardian', 'management', 'shield', 'Stay compliant with property laws and regulations effortlessly.' ),
+			array( 'Market Insight', 'investment', 'chart', 'Stay ahead of market trends with our expert Market Analysis. We provide in-depth insights into real estate market conditions.' ),
+			array( 'ROI Assessment', 'investment', 'flame', 'Make investment decisions with confidence. Our ROI Assessment services evaluate the potential returns on your investments.' ),
+			array( 'Customized Strategies', 'investment', 'lightbulb', 'Every investor is unique, and so are their goals. We develop Customized Investment Strategies tailored to your specific needs.' ),
+			array( 'Diversification Mastery', 'investment', 'sparkle', 'Diversify your real estate portfolio effectively. Our experts guide you in spreading your investments across various property types and locations.' ),
+		),
+		'offices'         => array(
+			array( '123 Estatein Plaza, City Center, Metropolis', 'Main Headquarters', 'regional', 'Metropolis', 'Our main headquarters serve as the heart of Estatein. Located in the bustling city center, this is where our team of experts operates, driving the excellence and innovation that define us.' ),
+			array( '456 Urban Avenue, Downtown District, Metropolis', 'Regional Offices', 'regional', 'Metropolis', 'Estatein\'s presence extends to multiple regions, each with its own dynamic real estate landscape. Discover our regional offices, staffed by local experts who understand the nuances of their respective markets.' ),
+			array( '78 Harbour Street, Marina Bay, Singapore', 'International Office', 'international', 'Singapore', 'Our Asia-Pacific office helps international clients invest with confidence, with bilingual advisors and local legal partners.' ),
+		),
+	);
+}
+
+/**
+ * Imports team members, clients, services, offices and property extras.
+ */
+function estatein_import_inner_pages() {
+	$data = estatein_inner_demo_data();
+
+	$gallery = array( 'gallery-villa', 'gallery-interior', 'property-seaside-villa', 'property-metropolitan-haven', 'property-rustic-cottage' );
+	foreach ( $data['property_extras'] as $title => $row ) {
+		$found = get_posts( array( 'post_type' => 'property', 'title' => $title, 'posts_per_page' => 1, 'fields' => 'ids', 'post_status' => 'any' ) );
+		if ( ! $found ) {
+			continue;
+		}
+		$post_id = (int) $found[0];
+		list( $tagline, $year, $price, $tax, $legal, $inspection, $insurance, $monthly_tax, $hoa ) = $row;
+		$fields = array(
+			'tagline'              => $tagline,
+			'build_year'           => $year,
+			'price'                => $price,
+			'fee_transfer_tax'     => $tax,
+			'fee_legal'            => $legal,
+			'fee_inspection'       => $inspection,
+			'fee_insurance'        => $insurance,
+			'monthly_tax'          => $monthly_tax,
+			'monthly_hoa'          => $hoa,
+			'down_payment_percent' => 20,
+			'key_features'         => $data['features'],
+		);
+		foreach ( $fields as $name => $value ) {
+			estatein_save_field( $name, $value, $post_id );
+		}
+		foreach ( $gallery as $order => $slug ) {
+			$attachment = estatein_import_image( $slug, $title );
+			if ( $attachment && (int) get_post_thumbnail_id( $post_id ) !== $attachment ) {
+				$copy = estatein_attach_copy( $attachment, $post_id, $order );
+				if ( ! $copy ) {
+					continue;
+				}
+			}
+		}
+	}
+
+	foreach ( $data['team'] as $order => $row ) {
+		$post_id = estatein_insert_once( array( 'post_type' => 'team_member', 'post_title' => $row[0], 'menu_order' => $order ) );
+		set_post_thumbnail( $post_id, estatein_import_image( $row[2], $row[0] ) );
+		estatein_save_field( 'role', $row[1], $post_id );
+		estatein_save_field( 'twitter_url', 'https://twitter.com/', $post_id );
+	}
+
+	foreach ( $data['clients'] as $order => $row ) {
+		$post_id = estatein_insert_once( array( 'post_type' => 'client', 'post_title' => $row[0], 'post_content' => $row[4], 'menu_order' => $order ) );
+		estatein_save_field( 'since', $row[1], $post_id );
+		estatein_save_field( 'website', 'https://example.com/', $post_id );
+		estatein_save_field( 'domain', $row[2], $post_id );
+		estatein_save_field( 'category', $row[3], $post_id );
+	}
+
+	foreach ( $data['services'] as $order => $row ) {
+		$post_id = estatein_insert_once( array( 'post_type' => 'service', 'post_title' => $row[0], 'post_excerpt' => $row[3], 'menu_order' => $order ) );
+		estatein_save_field( 'service_group', $row[1], $post_id );
+		estatein_save_field( 'service_icon', $row[2], $post_id );
+	}
+
+	foreach ( $data['offices'] as $order => $row ) {
+		$post_id = estatein_insert_once( array( 'post_type' => 'office', 'post_title' => $row[0], 'post_content' => $row[4], 'menu_order' => $order ) );
+		estatein_save_field( 'office_label', $row[1], $post_id );
+		estatein_save_field( 'office_region', $row[2], $post_id );
+		estatein_save_field( 'office_city', $row[3], $post_id );
+		estatein_save_field( 'office_email', 'info@estatein.com', $post_id );
+		estatein_save_field( 'office_phone', '+1 (123) 456-7890', $post_id );
+	}
+}
+
+/**
+ * Attaches an image to a property's gallery, reusing the file of an existing attachment.
+ *
+ * @param int $attachment_id Source attachment ID.
+ * @param int $post_id       Property ID.
+ * @param int $order         Gallery position.
+ * @return int Attachment ID attached to the property.
+ */
+function estatein_attach_copy( $attachment_id, $post_id, $order ) {
+	$slug     = get_post_meta( $attachment_id, '_estatein_demo_slug', true );
+	$existing = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_parent'    => $post_id,
+			'meta_key'       => '_estatein_gallery_slug',
+			'meta_value'     => $slug,
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+		)
+	);
+	if ( $existing ) {
+		return (int) $existing[0];
+	}
+
+	$file = get_attached_file( $attachment_id );
+	$copy = wp_insert_attachment(
+		array(
+			'post_mime_type' => 'image/webp',
+			'post_title'     => get_the_title( $post_id ),
+			'post_status'    => 'inherit',
+			'menu_order'     => $order,
+		),
+		$file,
+		$post_id
+	);
+	if ( is_wp_error( $copy ) || ! $copy ) {
+		return 0;
+	}
+
+	wp_update_attachment_metadata( $copy, wp_get_attachment_metadata( $attachment_id ) );
+	update_post_meta( $copy, '_wp_attachment_image_alt', get_the_title( $post_id ) );
+	update_post_meta( $copy, '_estatein_gallery_slug', $slug );
+	return (int) $copy;
 }

@@ -1,6 +1,6 @@
 # Estatein Theme: Development Notes
 
-**Scope:** Home page of the Estatein Figma template, built as a custom WordPress theme. Following the brief's "quality over quantity" guidance, I focused on finishing the Home page completely. It covers all eight sections at desktop, laptop and mobile, with real content management behind it. I did not start partial versions of the other pages.
+**Scope:** All six pages of the Estatein Figma template (Home, About Us, Properties, Property Details, Services, Contact), built as one custom WordPress theme at desktop, laptop and mobile, with real content management behind every section.
 
 ## 1. Process
 
@@ -11,7 +11,9 @@
    - **Spacing:** 162 / 80 / 16 px gutters at the 1920 / 1440 / 390 frames, with 150 / 120 / 80 px section rhythm.
    - **Assets:** icons were exported as SVG (recoloured to `currentColor` where useful), and photos and decorative patterns as WebP.
 2. **Content model first.** Before writing markup I decided what a client would need to edit, and where:
-   - **Properties, Testimonials and FAQs** are repeatable content, so they are custom post types. Property *type* is a taxonomy, so it can later drive filtering.
+   - **Properties, Testimonials, FAQs, Team Members, Clients, Services and Offices** are repeatable content, so they are custom post types. Property *type* is a taxonomy and drives the Properties filters.
+   - **Property facts and pricing** (price, beds, baths, area, build year, fees, taxes, HOA, down payment) are ACF fields; the Property Details page computes totals such as the down payment and mortgage amount.
+   - **Inner-page copy** (values, achievements, process steps, service-group intros) lives in `inc/page-content.php` behind `estatein_content_{key}` filters; each page's hero title and text can be overridden with ACF.
    - **Section copy** (hero, stats, feature cards, headings, CTA) lives in ACF fields on the front page, grouped in tabs.
    - **Site-wide elements** (banner, socials, copyright) live in the Customizer because they are not tied to one page.
 3. **Templates as components.** `front-page.php` only assembles six section parts. Repeated UI (section header, property card, slider controls) are reusable template parts. The property card is shared by the Home slider and the Properties archive.
@@ -45,6 +47,9 @@
 
 - The hero badge text is set on an SVG `textPath` and rotates slowly. It speeds up on hover, and the motion stops when reduced motion is requested.
 - FAQ "Read More" expands the full answer in place instead of navigating away.
+- Properties filters submit on change and show the number of matching results; the property gallery thumbnails sync with the slider and dots.
+- Office tabs (All / Regional / International) filter cards client-side; "Say Hello" on a team card opens the contact form pre-filled with that person's name.
+- One shared enquiry handler powers three forms; submissions are saved in the admin (Enquiries) and emailed.
 - The slider counter reflects the real number of scroll positions for the current screen size.
 - The announcement banner is dismissible and remembers the choice.
 - One-click demo import (dashboard button or `wp estatein import-demo`), so a reviewer or client gets the exact design immediately.
@@ -70,6 +75,7 @@
 
 ## 6. Next steps (outside the 4-hour scope)
 
-- Build the About, Properties (with filters by the `property_type` taxonomy, price and bedrooms), Property Details, Services and Contact pages, reusing the existing components.
+- Replace the demo photos (exported from the Figma canvas at screen resolution) with full-resolution originals.
+- Add map embeds for offices and saved searches for logged-in users.
 - Connect the newsletter to an email service (Mailchimp or Brevo) through the `estatein_subscriber` post type, or a hook.
 - Add a block pattern or `theme.json` so editors get the same tokens in the block editor.

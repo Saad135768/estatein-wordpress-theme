@@ -94,8 +94,12 @@
 			const perView = Math.max(1, Math.round((track.clientWidth + 1) / step()));
 			const positions = Math.max(1, items.length - perView + 1);
 			const index = Math.round(track.scrollLeft / step());
-			current.textContent = pad(Math.min(index + 1, positions));
-			total.textContent = pad(positions);
+			if (current) {
+				current.textContent = pad(Math.min(index + 1, positions));
+			}
+			if (total) {
+				total.textContent = pad(positions);
+			}
 			slider.classList.toggle('is-static', positions === 1);
 			prev.disabled = track.scrollLeft <= 2;
 			next.disabled = track.scrollLeft >= maxScroll - 2;
@@ -152,11 +156,77 @@
 		});
 	};
 
+	const initGallery = (gallery) => {
+		const track = gallery.querySelector('[data-slider-track]');
+		const thumbs = Array.from(gallery.querySelectorAll('[data-gallery-thumb]'));
+		const dots = Array.from(gallery.querySelectorAll('.gallery__dot'));
+		const items = track ? Array.from(track.children) : [];
+		if (!track || items.length === 0) {
+			return;
+		}
+
+		const activate = (index) => {
+			thumbs.forEach((thumb, i) => thumb.toggleAttribute('aria-current', i === index));
+			dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+		};
+
+		thumbs.forEach((thumb) => {
+			thumb.addEventListener('click', () => {
+				const index = Number(thumb.dataset.galleryThumb);
+				track.scrollTo({ left: items[index].offsetLeft - items[0].offsetLeft, behavior: 'smooth' });
+				activate(index);
+			});
+		});
+
+		track.addEventListener(
+			'scroll',
+			() => {
+				const step = items[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 0);
+				activate(Math.round(track.scrollLeft / step));
+			},
+			{ passive: true }
+		);
+	};
+
+	const initTabs = () => {
+		document.querySelectorAll('[data-tabs]').forEach((root) => {
+			const tabs = Array.from(root.querySelectorAll('[data-tab]'));
+			const cards = Array.from(root.querySelectorAll('[data-region]'));
+			tabs.forEach((tab) => {
+				tab.addEventListener('click', () => {
+					const region = tab.dataset.tab;
+					tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+					cards.forEach((card) => {
+						card.hidden = region !== 'all' && card.dataset.region !== region;
+					});
+				});
+			});
+		});
+	};
+
+	const initFilters = () => {
+		document.querySelectorAll('[data-autosubmit]').forEach((select) => {
+			select.addEventListener('change', () => select.form.requestSubmit());
+		});
+	};
+
+	const initAgentPrefill = () => {
+		const agent = new URLSearchParams(window.location.search).get('agent');
+		const message = document.querySelector('#enquiry-contact textarea[name="message"]');
+		if (agent && message && !message.value) {
+			message.value = `Hi ${agent}, `;
+		}
+	};
+
 	const init = () => {
 		initBanner();
 		initNav();
 		document.querySelectorAll('[data-slider]').forEach(initSlider);
+		document.querySelectorAll('[data-gallery]').forEach(initGallery);
 		initFaqs();
+		initTabs();
+		initFilters();
+		initAgentPrefill();
 	};
 
 	if (document.readyState === 'loading') {
