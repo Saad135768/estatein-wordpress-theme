@@ -91,6 +91,10 @@ estatein/
 
 WordPress 6.5+ (tested up to 7.1), PHP 8.0+, Advanced Custom Fields (recommended).
 
+## License
+
+Proprietary, all rights reserved. Shared only to evaluate a job application; see [LICENSE](LICENSE).
+
 ## Credits
 
 Design: Estatein Real Estate Website UI Template — Dark Theme (Produce UI, Figma Community). Font: Urbanist (SIL Open Font License).
