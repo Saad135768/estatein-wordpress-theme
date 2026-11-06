@@ -63,7 +63,7 @@
   - WordPress 7.1.4 locally with WP-CLI.
   - Playwright for screenshots and interaction tests.
   - axe-core and Lighthouse for audits.
-- **AI tools:** I used AI assistance (Claude) to speed up scaffolding and repetitive markup. I reviewed, tested and refined all the code myself.
+- **AI tools:** used to speed up scaffolding; all code was reviewed and tested by me.
 
 ## 5. Results
 
